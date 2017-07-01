@@ -9,8 +9,8 @@ import neovim
 class Main(object):
     def __init__(self, vim):
         self.vim = vim
-        self.snooper_rule_file = self.vim.vars.get("snooper_rule_file", ".snooper")
-        self.snooper_ctags_bin = self.vim.vars.get("snooper_ctags_bin", "ctags")
+        self.snooper_rule_file = ".snooper"
+        self.snooper_ctags_bin = "ctags"
 
     def get_packages(self):
         try:
@@ -30,7 +30,6 @@ class Main(object):
 
     @neovim.command('SnooperUpdate')
     def update(self):
-        cmd = self.snooper_ctags_bin + " ".join(self.get_packages())
+        cmd = "%s %s" % (self.snooper_ctags_bin, " ".join(self.get_packages()))
         self.vim.command("echo '%s'" % cmd)
         subprocess.run(cmd, shell=True)
-
